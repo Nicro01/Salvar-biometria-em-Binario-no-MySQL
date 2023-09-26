@@ -7,7 +7,7 @@ namespace CRUD_Forms
     public class Connection
     {
         // String de conexão com o banco de dados MySQL
-        readonly string connection = "SERVER=localhost; DATABASE=crud_forms; UID=root; PWD=";
+        readonly string connection = "SERVER=localhost; DATABASE=crud_forms; UID=root; PWD=123456789";
 
         // Objeto MySqlConnection para gerenciar a conexão
         public MySqlConnection con = null;

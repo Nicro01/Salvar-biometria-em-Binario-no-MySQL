@@ -60,18 +60,33 @@ namespace CRUD_Forms.Data
         }
 
         // Método para listar banco de dados no DataGridView
-        public DataTable Listar(DataGridView dgv)
+        public DataTable Listar()
         {
             // Cria uma instância da classe Connection para gerenciar a conexão com o banco de dados
             Connection con = new Connection();
             con.AbrirConexao(); // Abre a conexão com o banco de dados
-            var listar = new MySqlCommand("SELECT * FROM profile", con.con); // Cria um comando MySqlCommand para selecionar todos os registros da tabela "profile"
+            var listar = new MySqlCommand("SELECT id, name, cpf, TemplateString FROM profile", con.con); // Cria um comando MySqlCommand para selecionar todos os registros da tabela "profile"
             MySqlDataAdapter adapter = new MySqlDataAdapter(listar); // Cria um adaptador para executar o comando
             DataTable data = new DataTable(); // Cria um DataTable para armazenar os resultados
             adapter.Fill(data); // Preenche o DataTable com os resultados da consulta
             listar.ExecuteNonQuery(); // Executa o comando SQL
-            dgv.DataSource = data; // Define o DataGridView com os resultados
             con.CloseConnection(); // Fecha a conexão com o banco de dados
+
+            return data; // Retorna o DataTable com os resultados
+        }
+
+        public DataTable ListarBinario()
+        {
+            // Cria uma instância da classe Connection para gerenciar a conexão com o banco de dados
+            Connection con = new Connection();
+            con.AbrirConexao(); // Abre a conexão com o banco de dados
+            var listar = new MySqlCommand("SELECT id, TemplateByte FROM profile", con.con); // Cria um comando MySqlCommand para selecionar todos os registros da tabela "profile"
+            MySqlDataAdapter adapter = new MySqlDataAdapter(listar); // Cria um adaptador para executar o comando
+            DataTable data = new DataTable(); // Cria um DataTable para armazenar os resultados
+            adapter.Fill(data); // Preenche o DataTable com os resultados da consulta
+            listar.ExecuteNonQuery(); // Executa o comando SQL
+            con.CloseConnection(); // Fecha a conexão com o banco de dados
+
             return data; // Retorna o DataTable com os resultados
         }
 

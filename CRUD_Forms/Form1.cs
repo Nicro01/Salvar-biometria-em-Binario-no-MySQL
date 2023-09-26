@@ -27,7 +27,9 @@ namespace CRUD_Forms
         public Form1()
         {
             InitializeComponent();
-            sql.Listar(Dgv); // Lista os dados do banco de dados no DataGridView
+            Dgv.DataSource = sql.Listar(); // Lista os dados do banco de dados no DataGridView
+            sql.ListarBinario();
+
         }
 
         // Método para limpar os campos de entrada
@@ -71,7 +73,7 @@ namespace CRUD_Forms
                     EsvaziarInputs();
 
                     // Atualiza o DataGridView com os dados do banco de dados
-                    sql.Listar(Dgv);
+                    Dgv.DataSource = sql.Listar();
 
                     // Exibe uma mensagem de sucesso
                     MessageBox.Show("Registro salvo com sucesso !", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -98,7 +100,7 @@ namespace CRUD_Forms
             EsvaziarInputs();
 
             // Atualiza o DataGridView com os dados do banco de dados
-            sql.Listar(Dgv);
+            Dgv.DataSource = sql.Listar();
 
             MessageBox.Show("Usuário removido com sucesso!");
         }
@@ -129,18 +131,19 @@ namespace CRUD_Forms
             EsvaziarInputs();
 
             // Atualiza o DataGridView com os dados do banco de dados
-            sql.Listar(Dgv);
+            Dgv.DataSource = sql.Listar();
         }
 
         private void verifyBtn_Click(object sender, EventArgs e)
         {
+            int idParameter = Convert.ToInt32(IdTb.Text);
             DataTable digital = sql.ListarTemplate(Convert.ToInt32(IdTb.Text));
             string Template = digital.Rows[0]["TemplateString"].ToString();
-            string id = digital.Rows[0]["id"].ToString();
+            int id = Convert.ToInt32(digital.Rows[0]["id"]);
             string name = digital.Rows[0]["name"].ToString();
 
             // Verifica a correspondência biométrica do usuário
-            if (bio.CompararBinario(user))
+            if (bio.CompararBinario(idParameter))
             {
                 returnLb.Text = "Return: Usuário encontrado!";
                 returnId.Text = "ID: " + id;
@@ -181,6 +184,11 @@ namespace CRUD_Forms
                 return;
             }
             return;
+        }
+
+        private void IndexButton_Click(object sender, EventArgs e)
+        {
+            indexResult.Text = bio.IndexSearch();
         }
     }
 }
